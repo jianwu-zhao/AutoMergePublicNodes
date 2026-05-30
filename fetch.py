@@ -534,7 +534,7 @@ class Source():
             if isinstance(text, str):
                 if "proxies:" in text:
                     # Clash config
-                    config = yaml.full_load(text.replace("!<str>","!!str"))
+                    config = yaml.safe_load(text.replace("!<str>","!!str"))
                     sub: List[str] = config['proxies']
                 elif '://' in text:
                     # V2Ray raw list
@@ -818,7 +818,7 @@ def main():
     print("写出完成！")
 
     with open("config.yml", encoding="utf-8") as f:
-        conf: Dict[str, Any] = yaml.full_load(f)
+        conf: Dict[str, Any] = yaml.safe_load(f)
     
     rules: Dict[str, str] = {}
     if DEBUG_NO_ADBLOCK:
@@ -832,7 +832,7 @@ def main():
     categories: Dict[str, List[str]] = {}
     try:
         with open("snippets/_config.yml", encoding="utf-8") as f:
-            snip_conf = yaml.full_load(f)
+            snip_conf = yaml.safe_load(f)
     except (OSError, yaml.error.YAMLError):
         print("片段配置读取失败：")
         traceback.print_exc()
